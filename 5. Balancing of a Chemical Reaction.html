@@ -2,189 +2,286 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Added for mobile responsiveness -->
-
-  <title> Quiz – 5. Balancing of a Chemical Reaction</title>
+  
+  
+  <title> Quiz – 5 Balancing of a Chemical Reaction </title>
+  
   
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #121212;
-      color: #f0f0f0;
-    }
-    #logo {
-      display: block;
-      margin: 0 auto 25px;
-      max-width: 180px;
-      width: 80%;
-      height: auto;
-    }
-    #name-container {
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 6px;
-      max-width: 420px;
-      width: 90%;
-      margin: 0 auto;
-    }
-    #name-container input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0 15px;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    #quiz-container {
-      display: none;
-    }
-    .question {
-      border: 1px solid #333;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      background: #1e1e1e;
-    }
-    .question h3 {
-      margin: 0 0 10px;
-    }
-    .option-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 6px 0;
-      padding: 6px 8px;
-      border-radius: 4px;
-      background: #2a2a2a;
-      color: #ccc;
-      cursor: pointer;
-    }
-    .option-item input[type="radio"] {
-      margin: 0;
-    }
-    .submit-button, .toggle-button, .dontknow-button {
-      margin-top: 10px;
-      padding: 6px 12px;
-      background: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-right: 5px;
-    }
-    .solution {
-      display: none;
-      margin-top: 10px;
-      background: #2d2d2d;
-      padding: 10px;
-      border-left: 4px solid #28a745;
-    }
-    #scorecard {
-      background: #2d2d2d;
-      padding: 15px;
-      border-radius: 6px;
-      margin-top: 30px;
-      display: none;
-    }
-    #timer {
-      font-weight: bold;
-      color: #00ffcc;
-    }
-    #studentPrintName {
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: -15px;
-      margin-bottom: 5px;
-      display: none;
-    }
-    #examDateTime {
-      text-align: center;
-      font-size: 14px;
-      margin-bottom: 20px;
-      display: none;
-    }
+    body{font-family:Arial, sans-serif;padding:20px;background:#121212;color:#f0f0f0;}
+    #logo{display:block;margin:0 auto 25px;max-width:180px;}
+    #name-container{background:#1e1e1e;padding:30px;border-radius:6px;max-width:420px;margin:0 auto;}
+    #name-container input{width:100%;padding:10px;margin:10px 0 15px;border:none;border-radius:4px;font-size:16px;}
+    #quiz-container{display:none;}
+    .question{border:1px solid #333;padding:15px;margin-bottom:20px;border-radius:5px;background:#1e1e1e;}
+    .question h3{margin:0 0 10px;}
+    .option-item { display: flex; align-items: center; gap: 8px; margin: 6px 0; padding: 6px 8px; border-radius: 4px; background: #2a2a2a; color: #ccc; cursor: pointer; }
+    .option-item input[type="radio"] { margin: 0; }
+    .submit-button,.toggle-button,.dontknow-button{margin-top:10px;padding:6px 12px;background:#007BFF;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-right:5px;}
+    .solution{display:none;margin-top:10px;background:#2d2d2d;padding:10px;border-left:4px solid #28a745;}
+    #scorecard{background:#2d2d2d;padding:15px;border-radius:6px;margin-top:30px;display:none;}
+    #timer{font-weight:bold;color:#00ffcc;}
+    #studentPrintName{text-align:center;font-size:18px;font-weight:bold;margin-top:-15px;margin-bottom:5px;display:none;}
+    #examDateTime{text-align:center;font-size:14px;margin-bottom:20px;display:none;}
     @media print {
-      body {
-        background: #fff;
-        color: #000;
-      }
-      .submit-button, .dontknow-button, .toggle-button, #reportBtn, #reportModal {
-        display: none !important;
-      }
-      #name-container {
-        display: none !important;
-      }
+      body { background: #fff; color:#000; }
+      .submit-button, .dontknow-button, .toggle-button, #reportBtn, #reportModal { display:none !important; }
+      #name-container { display:none !important; }
     }
-    #reportBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #ff4757;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-    #reportModal {
-      display: none;
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      background: #1e1e1e;
-      border: 1px solid #444;
-      padding: 15px;
-      border-radius: 8px;
-      width: 260px;
-      z-index: 1001;
-    }
-    #reportModal textarea {
-      width: 100%;
-      height: 80px;
-      padding: 8px;
-      border: none;
-      border-radius: 4px;
-      resize: none;
-      font-size: 14px;
-    }
-    #reportModal button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    #sendReport {
-      background: #28a745;
-      color: white;
-    }
-    #closeReport {
-      background: #dc3545;
-      color: white;
-      margin-left: 5px;
-    }
-    /* Added responsive styles */
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-    @media (max-width: 480px) {
-      .submit-button, .dontknow-button {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-    }
-    #scoreTable {
-      overflow-x: auto;
-      display: block;
-      width: 100%;
-    }
+    #reportBtn { position: fixed; bottom: 20px; right: 20px; background: #ff4757; color: white; border: none; padding: 12px 18px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); z-index: 1000; }
+    #reportModal { display: none; position: fixed; bottom: 80px; right: 20px; background: #1e1e1e; border: 1px solid #444; padding: 15px; border-radius: 8px; width: 260px; z-index: 1001; }
+    #reportModal textarea { width: 100%; height: 80px; padding: 8px; border: none; border-radius: 4px; resize: none; font-size: 14px; }
+    #reportModal button { margin-top: 10px; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    #sendReport { background: #28a745; color: white; }
+    #closeReport { background: #dc3545; color: white; margin-left: 5px; }
+  
+  /* ===== LOGIN PAGE ENHANCEMENTS ===== */
+
+#name-container {
+  background: linear-gradient(145deg, #1e1e1e, #161616);
+  padding: 35px;
+  border-radius: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.6);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 4px;
+  font-size: 26px;
+  color: #00ffcc;
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.instruction-box {
+  background: #111;
+  border-left: 4px solid #00ffcc;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.instruction-box h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #00ffcc;
+}
+
+.instruction-box ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.instruction-box li {
+  margin-bottom: 6px;
+  color: #ccc;
+}
+
+.input-label {
+  font-size: 14px;
+  color: #bbb;
+}
+
+#studentNameInput {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+#studentNameInput:focus {
+  outline: 2px solid #00ffcc;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #007BFF, #00c6ff);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,123,255,0.4);
+}
+
+.login-note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #ffbaba;
+  text-align: center;
+}
+
+  /* ===== PORTAL HEADER ===== */
+.portal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.portal-logo {
+  height: 55px;
+  width: auto;
+}
+
+.portal-text h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.portal-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 600px) {
+  .portal-header {
+    justify-content: flex-start;
+  }
+
+  .portal-logo {
+    height: 45px;
+  }
+
+  .portal-text h1 {
+    font-size: 20px;
+  }
+
+  .portal-text p {
+    font-size: 12px;
+  }
+}
+/* ===== MOBILE LOGIN BOX FIX ===== */
+@media (max-width: 600px) {
+
+  body {
+    padding: 10px;
+  }
+
+  #name-container {
+    max-width: 100%;
+    padding: 22px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .portal-header {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .portal-logo {
+    height: 48px;
+  }
+
+  .portal-text h1 {
+    font-size: 21px;
+  }
+
+  .portal-text p {
+    font-size: 13px;
+  }
+
+  .instruction-box {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .instruction-box h3 {
+    font-size: 15px;
+  }
+
+  #studentNameInput {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .start-btn {
+    font-size: 18px;
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .login-note {
+    font-size: 13px;
+  }
+}
+/* ===== GLOWING LOGO EFFECT ===== */
+.portal-logo {
+  filter: drop-shadow(0 0 6px rgba(0, 255, 204, 0.6))
+          drop-shadow(0 0 14px rgba(0, 255, 204, 0.45));
+  animation: logoGlow 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+  from {
+    filter: drop-shadow(0 0 6px rgba(0, 255, 204, 0.5))
+            drop-shadow(0 0 12px rgba(0, 255, 204, 0.35));
+  }
+  to {
+    filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.9))
+            drop-shadow(0 0 24px rgba(0, 255, 204, 0.6));
+  }
+}
+/* ===== WHATSAPP SHARE BUTTON (GREEN + YELLOW BORDER) ===== */
+#shareWhatsappBtn {
+  background: linear-gradient(135deg, #25D366, #1ebe5d);
+  color: #fff;
+  font-weight: bold;
+  border: 2px solid #FFD700; /* Yellow border */
+  border-radius: 8px;
+  padding: 10px 16px;
+  box-shadow:
+    0 0 0 2px rgba(255, 215, 0, 0.25),
+    0 4px 14px rgba(37, 211, 102, 0.45);
+}
+
+#shareWhatsappBtn:hover {
+  background: linear-gradient(135deg, #1ebe5d, #25D366);
+  box-shadow:
+    0 0 0 3px rgba(255, 215, 0, 0.45),
+    0 6px 20px rgba(37, 211, 102, 0.6);
+  transform: translateY(-1px);
+}
+
+#shareWhatsappBtn:active {
+  transform: scale(0.97);
+}
+
+/* Mobile friendly */
+@media (max-width: 600px) {
+  #shareWhatsappBtn {
+    font-size: 16px;
+    padding: 12px 18px;
+  }
+}
+
+
   </style>
 
   <!-- MathJax Configuration -->
@@ -202,20 +299,58 @@
 </head>
 <body>
 
-<img id="logo" src="https://i.ibb.co/WNZTWPwv/LOGO-PNG-2025-fab.png" alt="Logo" />
 
 <div id="studentPrintName"></div>
 <div id="examDateTime"></div>
 
 <div id="name-container">
-  <h2>Enter your name to begin</h2>
-  <input type="text" id="studentNameInput" placeholder="Your Name" />
-  <button class="submit-button" onclick="startQuiz()">Start Quiz</button>
+<div class="portal-header">
+  <img src="https://i.ibb.co/WNZTWPwv/LOGO-PNG-2025-fab.png" alt="G10 Logo" class="portal-logo">
+
+  <div class="portal-text">
+    <h1>Online Test Portal</h1>
+    <p>G10 Educational Platform</p>
+  </div>
 </div>
+
+
+  <div class="instruction-box">
+    <h3>📌 Instructions</h3>
+  <ul>
+  <li>Enter your <strong>full name</strong> as per school records.</li>
+  <li>Do <strong>not refresh</strong> the page during the test.</li>
+  <li>Each question carries <strong>+4 marks</strong>, wrong answer <strong>−1 mark</strong>.</li>
+  <li>Click <strong>Final Submit</strong> after completing the test.</li>
+  <li>
+    After submission, <strong>share the final result with your teacher</strong> by clicking the
+    <strong>“Share on WhatsApp”</strong> button.
+  </li>
+</ul>
+  </div>
+
+  <label for="studentNameInput" class="input-label">Student Name</label>
+  <input
+    type="text"
+    id="studentNameInput"
+    placeholder="e.g. Rahul Sharma"
+    autocomplete="off"
+  />
+
+  <button class="start-btn" onclick="startQuiz()">
+    ▶ Start Test
+  </button>
+
+  <p class="login-note">
+    ⚠ Once started, the test timer cannot be paused.
+  </p>
+</div>
+
 
 <div id="quiz-container">
 
-  <h2> Quiz – 5. Balancing of a Chemical Reaction</h2>
+
+  <h2> Quiz – 5 Balancing of a Chemical Reaction</h2>
+  
   
   <p><strong>Time Elapsed:</strong> <span id="timer">00:00</span></p>
   <div id="questions-container"></div>
@@ -227,23 +362,22 @@
     <button class="submit-button" id="shareWhatsappBtn" style="display:none;">SHARE on WhatsApp</button>
   </div>
 
-  <div id="scorecard">
-    <h3>Your Scorecard</h3>
-    <p id="scoreText"></p>
-    <table id="scoreTable" border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; margin-top:15px;">
-      <thead style="background:#333;color:#fff;">
-        <tr>
-          <th>Q.No</th>
-          <th>Question</th>
-          <th>Your Answer</th>
-          <th>Correct Answer</th>
-          <th>Result</th>
-          <th>Solution</th>
-        </tr>
-      </thead>
-      <tbody id="scoreDetails"></tbody>
-    </table>
-  </div>
+ <div id="scorecard">
+  <h3>Your Scorecard</h3>
+  <p id="scoreText"></p>
+  <table id="scoreTable" border="1" cellspacing="0" cellpadding="6" style="width:100%;border-collapse:collapse;margin-top:15px;">
+    <thead style="background:#333;color:#fff;">
+      <tr>
+        <th>Q.No</th>
+        <th>Question</th>
+        <th>Your Answer</th>
+        <th>Correct Answer</th>
+        <th>Result</th>
+        <th>Solution</th>
+      </tr>
+    </thead>
+    <tbody id="scoreDetails"></tbody>
+  </table>
 </div>
 
 <button id="reportBtn">Report Mistake</button>
@@ -257,193 +391,264 @@
 </div>
 
 <script>
-// JavaScript content remains unchanged except responsive improvements handled by CSS only
-// (You can paste the JavaScript section exactly as in your original code here)
+
 
 const Q = [
- {
-  id: 'q1',
-  text: "What does the law of conservation of mass state?",
-  options: [
-    'Mass is destroyed during a chemical reaction',
-    'Mass is created during a chemical reaction',
-    'Mass can neither be created nor destroyed',
-    'Mass is converted into energy in all chemical reactions'
-  ],
-  correct: 'C',
-  solution: "The law of conservation of mass states that mass can neither be created nor destroyed in a chemical reaction."
+  {
+"id":"q1",
+"type":"fill",
+"question":"Balanced form of: H₂ + Cl₂ → HCl",
+"blanks":["___H₂","___Cl₂","___HCl"],
+"answer":["1","1","2"],
+"solution":"Balanced equation: H₂ + Cl₂ → 2HCl",
+"solution_steps":[
+"Count atoms of H and Cl.",
+"Balance hydrogen and chlorine together.",
+"Final balanced equation: H₂ + Cl₂ → 2HCl"
+]
 },
 {
-  id: 'q2',
-  text: "Why must a chemical equation be balanced?",
-  options: [
-    'To satisfy the law of conservation of mass',
-    'To show more reactants',
-    'To produce electricity',
-    'To change reactants into energy'
-  ],
-  correct: 'A',
-  solution: "Balancing ensures the total number of atoms for each element is the same on both sides of the equation."
+"id":"q2",
+"type":"fill",
+"question":"Balanced form of: N₂ + H₂ → NH₃",
+"blanks":["___N₂","___H₂","___NH₃"],
+"answer":["1","3","2"],
+"solution":"Balanced equation: N₂ + 3H₂ → 2NH₃",
+"solution_steps":[
+"Balance nitrogen first.",
+"Then balance hydrogen.",
+"Final balanced equation: N₂ + 3H₂ → 2NH₃"
+]
 },
 {
-  id: 'q3',
-  text: "Which is the balanced form of: H₂ + O₂ → H₂O ?",
-  options: [
-    'H₂ + O₂ → H₂O',
-    '2H₂ + O₂ → 2H₂O',
-    'H₂ + 2O₂ → H₂O',
-    '2H₂ + 2O₂ → 2H₂O'
-  ],
-  correct: 'B',
-  solution: "Balanced: 2H₂ + O₂ → 2H₂O."
+"id":"q3",
+"type":"fill",
+"question":"Balanced form of: Na + H₂O → NaOH + H₂",
+"blanks":["___Na","___H₂O","___NaOH","___H₂"],
+"answer":["2","2","2","1"],
+"solution":"Balanced equation: 2Na + 2H₂O → 2NaOH + H₂",
+"solution_steps":[
+"Balance Na atoms.",
+"Balance oxygen using water.",
+"Balance hydrogen last."
+]
 },
 {
-  id: 'q4',
-  text: "How many oxygen atoms are on the product side of: 2H₂ + O₂ → 2H₂O ?",
-  options: [
-    '1',
-    '2',
-    '3',
-    '4'
-  ],
-  correct: 'B',
-  solution: "There are 2 oxygen atoms in O₂ and 2 in 2H₂O (1 per molecule × 2)."
+"id":"q4",
+"type":"fill",
+"question":"Balanced form of: Fe + O₂ → Fe₂O₃",
+"blanks":["___Fe","___O₂","___Fe₂O₃"],
+"answer":["4","3","2"],
+"solution":"Balanced equation: 4Fe + 3O₂ → 2Fe₂O₃",
+"solution_steps":[
+"Balance iron atoms.",
+"Balance oxygen atoms.",
+"Final balanced equation: 4Fe + 3O₂ → 2Fe₂O₃"
+]
 },
 {
-  id: 'q5',
-  text: "Which is the balanced equation for: Fe + O₂ → Fe₂O₃ ?",
-  options: [
-    'Fe + O₂ → Fe₂O₃',
-    '2Fe + O₂ → Fe₂O₃',
-    '4Fe + 3O₂ → 2Fe₂O₃',
-    '3Fe + 2O₂ → Fe₃O₄'
-  ],
-  correct: 'C',
-  solution: "Balanced: 4Fe + 3O₂ → 2Fe₂O₃."
+"id":"q5",
+"type":"fill",
+"question":"Balanced form of: Mg + O₂ → MgO",
+"blanks":["___Mg","___O₂","___MgO"],
+"answer":["2","1","2"],
+"solution":"Balanced equation: 2Mg + O₂ → 2MgO",
+"solution_steps":[
+"Balance magnesium.",
+"Balance oxygen atoms.",
+"Final balanced equation: 2Mg + O₂ → 2MgO"
+]
 },
 {
-  id: 'q6',
-  text: "Which is true for the total mass of reactants and products in a chemical reaction?",
-  options: [
-    'Reactants mass is always greater',
-    'Products mass is always greater',
-    'Mass stays the same',
-    'Mass keeps increasing'
-  ],
-  correct: 'C',
-  solution: "By the law of conservation of mass, total mass remains constant."
+"id":"q6",
+"type":"fill",
+"question":"Balanced form of: C + O₂ → CO₂",
+"blanks":["___C","___O₂","___CO₂"],
+"answer":["1","1","1"],
+"solution":"Balanced equation: C + O₂ → CO₂",
+"solution_steps":[
+"Count atoms of carbon and oxygen.",
+"Both sides already balanced."
+]
 },
 {
-  id: 'q7',
-  text: "Which statement is true for balancing equations?",
-  options: [
-    'We can change subscripts to balance',
-    'We change coefficients to balance',
-    'We remove elements',
-    'We add new elements'
-  ],
-  correct: 'B',
-  solution: "Only coefficients can be changed to balance an equation; subscripts represent the actual compound."
+"id":"q7",
+"type":"fill",
+"question":"Balanced form of: Ca + H₂O → Ca(OH)₂ + H₂",
+"blanks":["___Ca","___H₂O","___Ca(OH)₂","___H₂"],
+"answer":["1","2","1","1"],
+"solution":"Balanced equation: Ca + 2H₂O → Ca(OH)₂ + H₂",
+"solution_steps":[
+"Balance calcium.",
+"Balance hydroxide groups.",
+"Balance hydrogen atoms."
+]
 },
 {
-  id: 'q8',
-  text: "Which is the balanced equation for: Al + O₂ → Al₂O₃ ?",
-  options: [
-    'Al + O₂ → Al₂O₃',
-    '2Al + O₂ → Al₂O₃',
-    '4Al + 3O₂ → 2Al₂O₃',
-    '6Al + 3O₂ → 3Al₂O₃'
-  ],
-  correct: 'C',
-  solution: "Balanced: 4Al + 3O₂ → 2Al₂O₃."
+"id":"q8",
+"type":"fill",
+"question":"Balanced form of: KClO₃ → KCl + O₂",
+"blanks":["___KClO₃","___KCl","___O₂"],
+"answer":["2","2","3"],
+"solution":"Balanced equation: 2KClO₃ → 2KCl + 3O₂",
+"solution_steps":[
+"Balance potassium and chlorine.",
+"Balance oxygen atoms."
+]
 },
 {
-  id: 'q9',
-  text: "Which shows the law of conservation of mass in this reaction: Zn + H₂SO₄ → ZnSO₄ + H₂ ?",
-  options: [
-    'Number of atoms is unequal',
-    'Zinc disappears',
-    'Total number of atoms is equal on both sides',
-    'Hydrogen is lost'
-  ],
-  correct: 'C',
-  solution: "There are equal numbers of Zn, H, and SO₄ on both sides."
+"id":"q9",
+"type":"fill",
+"question":"Balanced form of: Al + O₂ → Al₂O₃",
+"blanks":["___Al","___O₂","___Al₂O₃"],
+"answer":["4","3","2"],
+"solution":"Balanced equation: 4Al + 3O₂ → 2Al₂O₃",
+"solution_steps":[
+"Balance aluminium.",
+"Balance oxygen."
+]
 },
 {
-  id: 'q10',
-  text: "In balancing: Na + H₂O → NaOH + H₂, the balanced form is?",
-  options: [
-    'Na + H₂O → NaOH + H₂',
-    '2Na + 2H₂O → 2NaOH + H₂',
-    '2Na + H₂O → 2NaOH + H₂',
-    '2Na + 2H₂O → NaOH + H₂'
-  ],
-  correct: 'B',
-  solution: "Balanced: 2Na + 2H₂O → 2NaOH + H₂."
+"id":"q10",
+"type":"fill",
+"question":"Balanced form of: Zn + HCl → ZnCl₂ + H₂",
+"blanks":["___Zn","___HCl","___ZnCl₂","___H₂"],
+"answer":["1","2","1","1"],
+"solution":"Balanced equation: Zn + 2HCl → ZnCl₂ + H₂",
+"solution_steps":[
+"Balance zinc.",
+"Balance chlorine and hydrogen."
+]
 },
 {
-  id: 'q11',
-  text: "Which is the balanced equation for: C₃H₈ + O₂ → CO₂ + H₂O ?",
-  options: [
-    'C₃H₈ + O₂ → CO₂ + H₂O',
-    'C₃H₈ + 3O₂ → 3CO₂ + 4H₂O',
-    'C₃H₈ + 5O₂ → 3CO₂ + 4H₂O',
-    'C₃H₈ + 4O₂ → 3CO₂ + 4H₂O'
-  ],
-  correct: 'C',
-  solution: "Balanced: C₃H₈ + 5O₂ → 3CO₂ + 4H₂O (propane combustion)."
+"id":"q11",
+"type":"fill",
+"question":"Balanced form of: CH₄ + O₂ → CO₂ + H₂O",
+"blanks":["___CH₄","___O₂","___CO₂","___H₂O"],
+"answer":["1","2","1","2"],
+"solution":"Balanced equation: CH₄ + 2O₂ → CO₂ + 2H₂O",
+"solution_steps":[
+"Balance carbon.",
+"Balance hydrogen.",
+"Balance oxygen."
+]
 },
 {
-  id: 'q12',
-  text: "Which is the balanced form of: NH₃ + O₂ → NO + H₂O ?",
-  options: [
-    'NH₃ + O₂ → NO + H₂O',
-    '4NH₃ + 5O₂ → 4NO + 6H₂O',
-    '2NH₃ + 3O₂ → 2NO + 3H₂O',
-    'NH₃ + O₂ → NO₂ + H₂O'
-  ],
-  correct: 'B',
-  solution: "Balanced: 4NH₃ + 5O₂ → 4NO + 6H₂O (Ammonia oxidation)."
+"id":"q12",
+"type":"fill",
+"question":"Balanced form of: C₂H₆ + O₂ → CO₂ + H₂O",
+"blanks":["___C₂H₆","___O₂","___CO₂","___H₂O"],
+"answer":["2","7","4","6"],
+"solution":"Balanced equation: 2C₂H₆ + 7O₂ → 4CO₂ + 6H₂O",
+"solution_steps":[
+"Balance carbon.",
+"Balance hydrogen.",
+"Balance oxygen last."
+]
 },
 {
-  id: 'q13',
-  text: "Which balanced equation shows the thermal decomposition of potassium chlorate?",
-  options: [
-    'KClO₃ → KCl + O₂',
-    '2KClO₃ → 2KCl + 3O₂',
-    'KClO₃ → KCl₂ + O₂',
-    '2KClO₃ → KCl + O₂'
-  ],
-  correct: 'B',
-  solution: "Balanced: 2KClO₃ → 2KCl + 3O₂."
+"id":"q13",
+"type":"fill",
+"question":"Balanced form of: Fe + H₂O → Fe₃O₄ + H₂",
+"blanks":["___Fe","___H₂O","___Fe₃O₄","___H₂"],
+"answer":["3","4","1","4"],
+"solution":"Balanced equation: 3Fe + 4H₂O → Fe₃O₄ + 4H₂",
+"solution_steps":[
+"Balance iron atoms.",
+"Balance oxygen atoms.",
+"Balance hydrogen atoms."
+]
 },
 {
-  id: 'q14',
-  text: "Which is the balanced form of: Ca + H₂O → Ca(OH)₂ + H₂ ?",
-  options: [
-    'Ca + H₂O → Ca(OH)₂ + H₂',
-    'Ca + 2H₂O → Ca(OH)₂ + H₂',
-    '2Ca + 2H₂O → 2Ca(OH)₂ + H₂',
-    '2Ca + H₂O → Ca(OH)₂ + H₂'
-  ],
-  correct: 'B',
-  solution: "Balanced: Ca + 2H₂O → Ca(OH)₂ + H₂."
+"id":"q14",
+"type":"fill",
+"question":"Balanced form of: Na₂CO₃ + HCl → NaCl + H₂O + CO₂",
+"blanks":["___Na₂CO₃","___HCl","___NaCl","___H₂O","___CO₂"],
+"answer":["1","2","2","1","1"],
+"solution":"Balanced equation: Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂",
+"solution_steps":[
+"Balance sodium.",
+"Balance chlorine.",
+"Balance hydrogen and oxygen."
+]
 },
 {
-  id: 'q15',
-  text: "Which is the balanced equation for the reaction of iron with steam: Fe + H₂O → Fe₃O₄ + H₂ ?",
-  options: [
-    'Fe + H₂O → Fe₃O₄ + H₂',
-    '2Fe + 3H₂O → Fe₂O₃ + 3H₂',
-    '3Fe + 4H₂O → Fe₃O₄ + 4H₂',
-    '4Fe + 3H₂O → Fe₃O₄ + 4H₂'
-  ],
-  correct: 'C',
-  solution: "Balanced: 3Fe + 4H₂O → Fe₃O₄ + 4H₂."
+"id":"q15",
+"type":"fill",
+"question":"Balanced form of: NH₃ + O₂ → NO + H₂O",
+"blanks":["___NH₃","___O₂","___NO","___H₂O"],
+"answer":["4","5","4","6"],
+"solution":"Balanced equation: 4NH₃ + 5O₂ → 4NO + 6H₂O",
+"solution_steps":[
+"Balance nitrogen.",
+"Balance hydrogen.",
+"Balance oxygen."
+]
+},
+{
+"id":"q16",
+"type":"fill",
+"question":"Balanced form of: SO₂ + O₂ → SO₃",
+"blanks":["___SO₂","___O₂","___SO₃"],
+"answer":["2","1","2"],
+"solution":"Balanced equation: 2SO₂ + O₂ → 2SO₃",
+"solution_steps":[
+"Balance sulfur.",
+"Balance oxygen."
+]
+},
+{
+"id":"q17",
+"type":"fill",
+"question":"Balanced form of: Al + HCl → AlCl₃ + H₂",
+"blanks":["___Al","___HCl","___AlCl₃","___H₂"],
+"answer":["2","6","2","3"],
+"solution":"Balanced equation: 2Al + 6HCl → 2AlCl₃ + 3H₂",
+"solution_steps":[
+"Balance aluminium.",
+"Balance chlorine.",
+"Balance hydrogen."
+]
+},
+{
+"id":"q18",
+"type":"fill",
+"question":"Balanced form of: Ca₃(PO₄)₂ + SiO₂ + C → CaSiO₃ + P + CO",
+"blanks":["___Ca₃(PO₄)₂","___SiO₂","___C","___CaSiO₃","___P","___CO"],
+"answer":["2","6","10","6","4","10"],
+"solution":"Balanced equation: 2Ca₃(PO₄)₂ + 6SiO₂ + 10C → 6CaSiO₃ + 4P + 10CO",
+"solution_steps":[
+"Balance calcium and phosphorus.",
+"Balance silicon.",
+"Balance carbon and oxygen."
+]
+},
+{
+"id":"q19",
+"type":"fill",
+"question":"Balanced form of: KMnO₄ + HCl → KCl + MnCl₂ + H₂O + Cl₂",
+"blanks":["___KMnO₄","___HCl","___KCl","___MnCl₂","___H₂O","___Cl₂"],
+"answer":["2","16","2","2","8","5"],
+"solution":"Balanced equation: 2KMnO₄ + 16HCl → 2KCl + 2MnCl₂ + 8H₂O + 5Cl₂",
+"solution_steps":[
+"Balance potassium and manganese.",
+"Balance chlorine.",
+"Balance hydrogen and oxygen."
+]
+},
+{
+"id":"q20",
+"type":"fill",
+"question":"Balanced form of: C₆H₁₂O₆ + O₂ → CO₂ + H₂O",
+"blanks":["___C₆H₁₂O₆","___O₂","___CO₂","___H₂O"],
+"answer":["1","6","6","6"],
+"solution":"Balanced equation: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O",
+"solution_steps":[
+"Balance carbon.",
+"Balance hydrogen.",
+"Balance oxygen."
+]
 }
-
-
-
 ]
 ;
 
@@ -474,6 +679,50 @@ function buildQuestions() {
 
   Q.forEach((q, index) => {
     const qText = q.text || q.question || q.prompt || ''; // tolerate different keys
+	
+	// Fill in the blank question
+if (q.type === "fill") {
+
+  const blanksHTML = q.blanks.map((b,i)=>`
+  <input type="text" 
+    data-q="${q.id}" 
+    data-i="${i}" 
+    class="fill-input"
+    placeholder="1"
+    style="width:60px;padding:4px;margin:4px;"
+    oninput="enableSubmit('${q.id}')">
+  ${b.replace("___","")}
+`).join(" + ");
+
+  out.insertAdjacentHTML('beforeend', `
+    <div class="question" id="${q.id}-wrap">
+      <h3>Q${index+1}. ${qText}</h3>
+
+      <div style="margin:10px 0;font-size:18px">
+        ${blanksHTML}
+      </div>
+
+      <div id="${q.id}-buttons">
+        <button id="sub-${q.id}" class="submit-button" disabled onclick="gradeFill('${q.id}')">Submit</button>
+        <button class="dontknow-button" onclick="skip('${q.id}')">I Don’t Know</button>
+      </div>
+
+      <button class="toggle-button" id="btn-sol-${q.id}" style="display:none;" onclick="toggleSolution('sol-${q.id}')">Show Solution</button>
+
+    <div class="solution" id="sol-${q.id}">
+  <strong>Solution:</strong> ${q.solution || ''}
+  ${
+    q.solution_steps && q.solution_steps.length
+      ? "<ul style='margin-top:8px;'>" +
+        q.solution_steps.map(s => `<li>${s}</li>`).join("") +
+        "</ul>"
+      : ""
+  }
+</div>
+  `);
+
+  return;
+}
 
     // Normalize options into an ordered array of [letter, optionText]
     let entries = [];
@@ -500,12 +749,18 @@ function buildQuestions() {
     const imageHTML = q.image ? `<div><img src="${q.image}" alt="figure" style="max-width:360px; margin:10px 0; display:block;"></div>` : '';
 
     // Handle solution steps if they exist
-    let solutionStepsHTML = '';
-    if (q.solution_steps && Array.isArray(q.solution_steps) && q.solution_steps.length > 0) {
-      solutionStepsHTML = '<ul style="margin-top:10px;">' +
-        q.solution_steps.map(step => `<li>${step}</li>`).join('') +
-        '</ul>';
-    }
+let solutionStepsHTML = '';
+if (q.solution_steps && Array.isArray(q.solution_steps) && q.solution_steps.length > 0) {
+  solutionStepsHTML = '<ul style="margin-top:10px;">' +
+    q.solution_steps.map(step => {
+      if (step.includes("\n")) {
+        return `<li><pre style="background:#111; padding:6px; border-radius:4px; overflow-x:auto;">${step}</pre></li>`;
+      }
+      return `<li>${step}</li>`;
+    }).join('') +
+    '</ul>';
+}
+
 
     out.insertAdjacentHTML('beforeend', `
       <div class="question" id="${q.id}-wrap">
@@ -531,10 +786,28 @@ function buildQuestions() {
 
 function enableSubmit(qid) { document.getElementById(`sub-${qid}`).disabled = false; }
 
+
+function getCorrectLetter(q) {
+  let ans = q.correct || q.answer || q.key || q.correctAnswer;
+
+  // If answer is a number like "2"
+  if (!isNaN(ans)) {
+    return String.fromCharCode(65 + Number(ans) - 1);
+  }
+
+  // If answer is already A/B/C/D
+  return ans;
+}
+
+
 function grade(qid) {
   const q = Q.find(x => x.id === qid);
   // accept different possible field names for the correct answer
-  const correct = q.correct || q.answer || q.key || q.correctAnswer;
+  
+  
+const correct = getCorrectLetter(q);
+
+
   const chosen = document.querySelector(`input[name="${qid}"]:checked`);
   if (!chosen) return;
 
@@ -581,6 +854,42 @@ function grade(qid) {
 }
 
 
+
+
+
+function gradeFill(qid){
+
+  const q = Q.find(x=>x.id===qid);
+
+  const inputs = document.querySelectorAll(`input[data-q="${qid}"]`);
+
+  let correct = true;
+
+  inputs.forEach((inp,i)=>{
+    let user = inp.value.trim();
+if(user === "") user = "1";
+    const ans = q.answer[i];
+
+    if(user === ans){
+      inp.style.background = "#28a745";
+      inp.style.color = "#fff";
+    }else{
+      inp.style.background = "#dc3545";
+      inp.style.color = "#fff";
+      correct = false;
+    }
+
+    inp.disabled = true;
+  });
+
+  document.getElementById(`${qid}-buttons`).style.display="none";
+
+  document.getElementById(`sol-${qid}`).style.display="block";
+}
+
+
+
+
 function skip(qid) { document.querySelectorAll(`input[name="${qid}"]`).forEach(r => r.disabled = true); showSolutionButton(qid); }
 function showSolutionButton(qid) { document.getElementById(`btn-sol-${qid}`).style.display = 'inline-block'; document.getElementById(`${qid}-buttons`).style.display = 'none'; }
 function toggleSolution(id) { const elem = document.getElementById(id); elem.style.display = elem.style.display === 'block' ? 'none' : 'block'; }
@@ -602,15 +911,43 @@ function finalSubmit() {
   let detailHTML = '';
 
   Q.forEach((q, index) => {
-    const checked = document.querySelector(`input[name="${q.id}"]:checked`);
-    const chosen = checked ? checked.value : null;
+ let chosen = null;
+let correctLetter = "";
 
-    const correctLetter = q.correct || q.answer || q.key || q.correctAnswer;
+// ===== Handle FILL questions =====
+if(q.type === "fill"){
+
+  const inputs = document.querySelectorAll(`input[data-q="${q.id}"]`);
+
+  let userAnswers = [];
+
+  inputs.forEach(inp=>{
+    let v = inp.value.trim();
+    if(v === "") v = "1";   // blank = coefficient 1
+    userAnswers.push(v);
+  });
+
+  chosen = userAnswers.join(",");
+
+  correctLetter = q.answer.join(",");
+
+}else{
+
+  // ===== Handle MCQ questions =====
+  const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+  chosen = checked ? checked.value : null;
+  correctLetter = getCorrectLetter(q);
+
+}
+	
+	
+	
+	
 
     let marks = 0;
     let resultText = "";
 
-    if (chosen === null) {
+if (chosen === null || chosen === "") {
       marks = 0;
       resultText = "⚪ Not Attempted / I Don’t Know (0)";
     } else if (chosen === correctLetter) {
@@ -683,7 +1020,7 @@ window.addEventListener('afterprint', () => { document.querySelector("#questions
 
 
 document.getElementById("shareWhatsappBtn").addEventListener("click", function () {
-  const whatsappNumber = "9108069409455";
+  const whatsappNumber = "916003582005";
 
   if (!student) {
     alert("Please complete the quiz first.");
@@ -702,7 +1039,14 @@ document.getElementById("shareWhatsappBtn").addEventListener("click", function (
     const qNum = i + 1;
     const checked = document.querySelector(`input[name="${q.id}"]:checked`);
     let userAns = checked ? checked.value : null;
-    const correctAns = q.correct || q.answer || q.key || q.correctAnswer;
+	
+	
+	
+	
+	
+const correctAns = getCorrectLetter(q);
+	
+	
 
     let marks = 0;
     let resultText = "";
@@ -745,7 +1089,7 @@ closeReport.onclick = () => { reportModal.style.display = "none"; reportMsg.valu
 sendReport.onclick = () => {
   const msg = reportMsg.value.trim();
   if (!msg) { alert("Please write your message before sending."); return; }
-  const whatsappNumber = "9108069409455";
+  const whatsappNumber = "916003582005";
   const message = `⚠️ Reported Mistake\n\n📘 Quiz Title: ${quizTitle}\n👤 Student: ${student || "Anonymous"}\n\n📝 Message:\n${msg}`;
   const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   window.open(waUrl, "_blank");
