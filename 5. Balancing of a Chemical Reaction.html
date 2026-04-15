@@ -939,8 +939,33 @@ if(q.type === "fill"){
 }else{
 
   // ===== Handle MCQ questions =====
+let chosen = null;
+let correctLetter = "";
+
+// ===== Handle FILL questions =====
+if(q.type === "fill"){
+
+  const inputs = document.querySelectorAll(`input[data-q="${q.id}"]`);
+
+  let userAnswers = [];
+
+  inputs.forEach(inp=>{
+    let v = inp.value.trim();
+    if(v === "") v = "1";
+    userAnswers.push(v);
+  });
+
+  chosen = userAnswers.join(",");
+  correctLetter = q.answer.join(",");
+
+} else {
+
+  // ===== Handle MCQ questions =====
   const checked = document.querySelector(`input[name="${q.id}"]:checked`);
   chosen = checked ? checked.value : null;
+  correctLetter = getCorrectLetter(q);
+
+}
   correctLetter = getCorrectLetter(q);
 
 }
@@ -1040,39 +1065,57 @@ document.getElementById("shareWhatsappBtn").addEventListener("click", function (
 
   let details = "";
 
-  Q.forEach((q, i) => {
-    const qNum = i + 1;
+Q.forEach((q, i) => {
+  const qNum = i + 1;
+
+  let userAns = null;
+  let correctAns = "";
+
+  // ===== Handle FILL questions =====
+  if(q.type === "fill"){
+
+    const inputs = document.querySelectorAll(`input[data-q="${q.id}"]`);
+
+    let userAnswers = [];
+
+    inputs.forEach(inp=>{
+      let v = inp.value.trim();
+      if(v === "") v = "1";
+      userAnswers.push(v);
+    });
+
+    userAns = userAnswers.join(",");
+    correctAns = q.answer.join(",");
+
+  } else {
+
+    // ===== Handle MCQ =====
     const checked = document.querySelector(`input[name="${q.id}"]:checked`);
-    let userAns = checked ? checked.value : null;
-	
-	
-	
-	
-	
-const correctAns = getCorrectLetter(q);
-	
-	
+    userAns = checked ? checked.value : null;
+    correctAns = getCorrectLetter(q);
 
-    let marks = 0;
-    let resultText = "";
+  }
 
-    if (userAns === null) {
-      marks = 0;
-      resultText = "⚪ Not Attempted / I Don’t Know (0)";
-      userAns = "Not Answered";
-    } else if (userAns === correctAns) {
-      marks = 4;
-      resultText = "✅ Correct (+4)";
-    } else {
-      marks = -1;
-      resultText = "❌ Incorrect (-1)";
-    }
+  let marks = 0;
+  let resultText = "";
 
-    totalMarks += marks > 0 ? marks : 0;
-    negativeMarks += marks < 0 ? marks : 0;
+  if (userAns === null || userAns === "") {
+    marks = 0;
+    resultText = "⚪ Not Attempted (0)";
+    userAns = "Not Answered";
+  } else if (userAns === correctAns) {
+    marks = 4;
+    resultText = "✅ Correct (+4)";
+  } else {
+    marks = -1;
+    resultText = "❌ Incorrect (-1)";
+  }
 
-    details += `Q${qNum} → ${resultText} (Your Ans: ${userAns} | Correct: ${correctAns})\n`;
-  });
+  totalMarks += marks > 0 ? marks : 0;
+  negativeMarks += marks < 0 ? marks : 0;
+
+  details += `Q${qNum}: ${resultText}\nYour: ${userAns}\nCorrect: ${correctAns}\n\n`;
+});
 
   const finalScore = totalMarks + negativeMarks;
 
